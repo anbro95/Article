@@ -17,7 +17,8 @@ public class ArticleApplication {
     @Bean
     CommandLineRunner run(UserService userService) {
         return args -> {
-            userService.saveUser(new User(1L, "Brovko"));
+            userService.saveUser(new User(1L, "Andrew", "Brovko", "Jun", "anbro"));
+            userService.saveUser(new User(2L, "Volodya", "Zelenskiy", "Prez", "zelya"));
         };
     }
 
