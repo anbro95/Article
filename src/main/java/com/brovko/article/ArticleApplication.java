@@ -1,6 +1,8 @@
 package com.brovko.article;
 
+import com.brovko.article.model.Article;
 import com.brovko.article.model.User;
+import com.brovko.article.service.ArticleService;
 import com.brovko.article.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,10 +17,10 @@ public class ArticleApplication {
     }
 
     @Bean
-    CommandLineRunner run(UserService userService) {
+    CommandLineRunner run(ArticleService articleService) {
         return args -> {
-            userService.saveUser(new User(1L, "Andrew", "Brovko", "Jun", "anbro"));
-            userService.saveUser(new User(2L, "Volodya", "Zelenskiy", "Prez", "zelya"));
+            articleService.saveArticle(new Article(1l, "Пингвины дохнут", "Очень много пингвинов дохнет последнее время"));
+            articleService.saveArticle(new Article(2l, "Гендеров не 2", "Лично я по гендеру балкон"));
         };
     }
 
