@@ -2,10 +2,8 @@ package com.brovko.article.controller;
 
 
 import com.brovko.article.model.Article;
-import com.brovko.article.repository.ArticleRepository;
 import com.brovko.article.service.ArticleService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -50,7 +48,14 @@ public class ArticleController {
     @PutMapping("/articles")
     public ResponseEntity<?> updateArticle(@RequestBody Article article) {
         Article updatedArticle = articleService.updateArticle(article);
-        return ResponseEntity.ok().body(updatedArticle == null ? "Article " + article.getId() + " not found" : article);
+        return ResponseEntity.ok().body(updatedArticle == null ? "Article " + article.getArticleId() + " not found" : article);
+    }
+
+    @PutMapping("/articles/{id}/category/{cid}")
+    public void addCategorytoArticle(@PathVariable (value = "id") Long articleId,
+                                                        @PathVariable(value = "cid") Long categoryId) {
+
+        articleService.addCategoryToArticle(articleId, categoryId);
     }
 
 }

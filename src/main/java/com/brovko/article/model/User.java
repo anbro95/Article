@@ -22,14 +22,14 @@ public class User {
     private String password;
     private LocalDate createdAt;
     private String email;
-//    private String phone;
+    private String phone;
     private LocalDate birthDate;
     private int age;
     private String country;
     private String city;
 
 //    private List<String> socialMediaLinks;
-//    private String creditCardNumber;
+    private String creditCardNumber;
 
     private String lastName;
     private String userName;

@@ -67,10 +67,10 @@ public class UserService {
         updatedUser.setBirthDate(user.getBirthDate());
         updatedUser.setCreatedAt(user.getCreatedAt());
 
-//        updatedUser.setPhone(user.getPhone());
+        updatedUser.setPhone(user.getPhone());
 //        updatedUser.setArticles(user.getArticles());
 //        updatedUser.setSocialMediaLinks(user.getSocialMediaLinks());
-//        updatedUser.setCreditCardNumber(user.getCreditCardNumber());
+        updatedUser.setCreditCardNumber(user.getCreditCardNumber());
 //        updatedUser.setJob(user.getJob());
 
         return userRepository.save(updatedUser);
