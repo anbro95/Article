@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -37,4 +39,24 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Article> articles;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Collection<Role> roles = new ArrayList<>();
+
+    public User(String firstName, String password, String email, String phone, LocalDate birthDate,
+                int age, String country, String city, String creditCardNumber, String lastName,
+                String userName, Collection<Role> roles) {
+        this.firstName = firstName;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.birthDate = birthDate;
+        this.age = age;
+        this.country = country;
+        this.city = city;
+        this.creditCardNumber = creditCardNumber;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.roles = roles;
+        this.createdAt = LocalDate.now();
+    }
 }

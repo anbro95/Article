@@ -1,8 +1,10 @@
 package com.brovko.article.controller;
 
 
+import com.brovko.article.model.Role;
 import com.brovko.article.model.User;
 import com.brovko.article.service.UserService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
+    @GetMapping("/roles")
+    public ResponseEntity<List<Role>> getRoles() {
+        return ResponseEntity.ok().body(userService.roles());
+    }
+
+    @PostMapping("/roles")
+    public ResponseEntity<Role> saveRole(@RequestBody Role role) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/roles").toUriString());
+        return ResponseEntity.created(uri).body(userService.saveRole(role));
+    }
+
+
+    @PutMapping("/roles/users")
+    public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form) {
+        userService.addRoleToUser(form.getUsername(), form.getRoleName());
+        return ResponseEntity.ok().build();
+    }
 
     @PostMapping("/users")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
@@ -51,4 +71,10 @@ public class UserController {
         User updatedUser = userService.updateUser(user);
         return ResponseEntity.ok().body(updatedUser == null ? "User " + user.getUser_id() + " not found" : user);
     }
+}
+
+@Data
+class RoleToUserForm {
+    private String username;
+    private String roleName;
 }

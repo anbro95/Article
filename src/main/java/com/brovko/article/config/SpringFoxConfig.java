@@ -1,4 +1,4 @@
-package com.brovko.article;
+package com.brovko.article.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
