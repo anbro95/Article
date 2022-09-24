@@ -23,7 +23,10 @@ public class Article {
     @ManyToOne
     @JoinColumn(name = "categoryId")
     private Category category;
-//    private User author;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author")
+    private User author;
 
 
     public Article(Long articleId, String name, String text) {

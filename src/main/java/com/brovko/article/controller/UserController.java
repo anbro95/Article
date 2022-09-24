@@ -51,4 +51,10 @@ public class UserController {
         User updatedUser = userService.updateUser(user);
         return ResponseEntity.ok().body(updatedUser == null ? "User " + user.getId() + " not found" : user);
     }
+
+    @PutMapping("/users/{userId}/add/{articleId}")
+    public String addArticleToUser(@PathVariable(value = "userId") Long userId,
+                                   @PathVariable(value = "articleId") Long articleId) {
+        return userService.addArticleToUser(userId, articleId);
+    }
 }

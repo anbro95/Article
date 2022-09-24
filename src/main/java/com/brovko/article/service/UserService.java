@@ -1,13 +1,14 @@
 package com.brovko.article.service;
 
 
+import com.brovko.article.model.Article;
 import com.brovko.article.model.User;
+import com.brovko.article.repository.ArticleRepository;
 import com.brovko.article.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,7 +16,7 @@ import java.util.List;
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
-
+    private final ArticleRepository articleRepository;
 
     public User saveUser(User user) {
         log.info("Saving user with id {}", user.getId());
@@ -74,5 +75,19 @@ public class UserService {
 //        updatedUser.setJob(user.getJob());
 
         return userRepository.save(updatedUser);
+    }
+
+    public String addArticleToUser(Long userId, Long articleId) {
+        User user = userRepository.findById(userId).orElse(null);
+        Article article = articleRepository.findById(articleId).orElse(null);
+
+        if(user == null) return "User " + userId + " not found";
+        if(article == null) return "Article " + articleId + " not found";
+
+        user.getArticles().add(article);
+//        article.setAuthor(user);
+        userRepository.save(user);
+
+        return "Article added to user successfully!";
     }
 }

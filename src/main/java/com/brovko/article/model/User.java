@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,12 +29,15 @@ public class User {
     private String country;
     private String city;
 
-//    private List<String> socialMediaLinks;
+    private String socialMediaLinks;
     private String creditCardNumber;
 
     private String lastName;
     private String userName;
-//    private List<Article> articles;
+
+    @OneToMany(cascade = CascadeType.ALL,
+                mappedBy = "author")
+    private List<Article> articles = new ArrayList<>();
 //    private Job job;
 
 }
