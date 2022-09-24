@@ -59,4 +59,12 @@ public class User {
         this.roles = roles;
         this.createdAt = LocalDate.now();
     }
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinTable(
+            name = "users_jobs",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "job_id")
+    )
+    private List<Job> jobs;
 }
