@@ -17,10 +17,11 @@ import java.util.List;
 public class ArticleController {
     private final ArticleService articleService;
 
-    @PostMapping("/articles")
-    public ResponseEntity<Article> saveArticle(@RequestBody Article article) {
+    @PostMapping("/articles/{user_id}")
+    public ResponseEntity<Article> saveArticle(@RequestBody Article article,
+                                               @PathVariable Long user_id) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/articles").toUriString());
-        return ResponseEntity.created(uri).body(articleService.saveArticle(article));
+        return ResponseEntity.created(uri).body(articleService.saveArticle(article, user_id));
     }
 
     @GetMapping("/articles/{id}")
@@ -48,7 +49,7 @@ public class ArticleController {
     @PutMapping("/articles")
     public ResponseEntity<?> updateArticle(@RequestBody Article article) {
         Article updatedArticle = articleService.updateArticle(article);
-        return ResponseEntity.ok().body(updatedArticle == null ? "Article " + article.getArticleId() + " not found" : article);
+        return ResponseEntity.ok().body(updatedArticle == null ? "Article " + article.getArticle_id() + " not found" : article);
     }
 
     @PutMapping("/articles/{id}/category/{cid}")

@@ -49,7 +49,7 @@ public class UserController {
     @PutMapping ("/users")
     public ResponseEntity<?> updateUser(@RequestBody User user) {
         User updatedUser = userService.updateUser(user);
-        return ResponseEntity.ok().body(updatedUser == null ? "User " + user.getId() + " not found" : user);
+        return ResponseEntity.ok().body(updatedUser == null ? "User " + user.getUser_id() + " not found" : user);
     }
 
     @PutMapping("/users/{userId}/add/{articleId}")

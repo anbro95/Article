@@ -19,7 +19,7 @@ public class UserService {
     private final ArticleRepository articleRepository;
 
     public User saveUser(User user) {
-        log.info("Saving user with id {}", user.getId());
+        log.info("Saving user with id {}", user.getUser_id());
         return userRepository.save(user);
     }
 
@@ -51,8 +51,8 @@ public class UserService {
     }
 
     public User updateUser(User user) {
-        log.info("Updating user info {}", user.getId());
-        Long id = user.getId();
+        log.info("Updating user info {}", user.getUser_id());
+        Long id = user.getUser_id();
         User updatedUser = userRepository.findById(id).orElse(null);
         if(updatedUser == null) {
             return null;

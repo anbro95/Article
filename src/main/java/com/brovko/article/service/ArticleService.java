@@ -5,6 +5,7 @@ import com.brovko.article.model.Article;
 import com.brovko.article.model.Category;
 import com.brovko.article.repository.ArticleRepository;
 import com.brovko.article.repository.CategoryRepository;
+import com.brovko.article.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,14 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final CategoryRepository categoryRepository;
 
-    public Article saveArticle(Article article){
-        log.info("Saving Article with id {}", article.getArticleId());
+    private final UserRepository userRepository;
+
+    public Article saveArticle(Article article, Long id){
+        log.info("Saving Article with id {}", article.getArticle_id());
+        // temp
+        article.getCategories_id().forEach(category_id -> article
+                .getCategories().add(categoryRepository.findById(category_id).orElse(null)));
+        article.setUser(userRepository.findById(id).orElse(null));
         return articleRepository.save(article);
     }
 
@@ -49,7 +56,7 @@ public class ArticleService {
     }
 
     public Article updateArticle(Article article) {
-        Long id = article.getArticleId();
+        Long id = article.getArticle_id();
         log.info("Updating Article with id {}", id);
 
         Article updatedArticle = articleRepository.findById(id).orElse(null);
@@ -67,7 +74,7 @@ public class ArticleService {
         Article article = articleRepository.findById(articleId).orElse(null);
         Category category = categoryRepository.findById(categoryId).orElse(null);
 
-        category.getArticleList().add(article);
+        category.getArticles().add(article);
         categoryRepository.save(category);
     }
 }

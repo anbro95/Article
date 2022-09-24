@@ -1,12 +1,12 @@
 package com.brovko.article.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long user_id;
     private String firstName;
     private String password;
     private LocalDate createdAt;
@@ -29,15 +29,12 @@ public class User {
     private String country;
     private String city;
 
-    private String socialMediaLinks;
+//    private List<String> socialMediaLinks;
     private String creditCardNumber;
 
     private String lastName;
     private String userName;
-
-    @OneToMany(cascade = CascadeType.ALL,
-                mappedBy = "author")
-    private List<Article> articles = new ArrayList<>();
-//    private Job job;
+    @OneToMany(mappedBy = "user")
+    private List<Article> articles;
 
 }

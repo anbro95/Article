@@ -49,6 +49,6 @@ public class CategoryController {
     public ResponseEntity<?> updateCategory(@RequestBody Category category) {
         Category updatedCategory = categoryService.updateCategory(category);
         return ResponseEntity.ok().body(updatedCategory == null ? "Could not update category " +
-                                                                    category.getCategoryId() : updatedCategory);
+                                                                    category.getCategory_id() : updatedCategory);
     }
 }
