@@ -70,11 +70,17 @@ public class ArticleService {
         return articleRepository.save(updatedArticle);
     }
 
-    public void addCategoryToArticle(Long articleId, Long categoryId) {
+    public String addCategoryToArticle(Long articleId, Long categoryId) {
+        log.info("Trying to add category {} to article {}", categoryId, articleId);
         Article article = articleRepository.findById(articleId).orElse(null);
         Category category = categoryRepository.findById(categoryId).orElse(null);
 
+        if(article == null) return "Article " + articleId + " not found";
+        if(category == null) return "Category " + categoryId + " not found";
+
         category.getArticles().add(article);
         categoryRepository.save(category);
+
+        return "Category added to article successfully";
     }
 }

@@ -52,11 +52,11 @@ public class ArticleController {
         return ResponseEntity.ok().body(updatedArticle == null ? "Article " + article.getArticle_id() + " not found" : article);
     }
 
-    @PutMapping("/articles/{id}/category/{cid}")
-    public void addCategorytoArticle(@PathVariable (value = "id") Long articleId,
-                                                        @PathVariable(value = "cid") Long categoryId) {
-
-        articleService.addCategoryToArticle(articleId, categoryId);
-    }
+//    @PutMapping("/articles/{id}/category/{cid}")
+//    public String addCategoryToArticle(@PathVariable (value = "id") Long articleId,
+//                                       @PathVariable(value = "cid") Long categoryId) {
+//
+//        return articleService.addCategoryToArticle(articleId, categoryId);
+//    }
 
 }
