@@ -1,5 +1,6 @@
 package com.brovko.article.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,13 +18,12 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryId;
+    private Long category_id;
     private String name;
     private String description;
-    @OneToMany(mappedBy = "category")
-//    @JoinTable(name = "articles_categories", joinColumns = {@JoinColumn(name = "categoryId")},
-//            inverseJoinColumns = {@JoinColumn(name = "articleId")})
-    private List<Article> articleList;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "categories")
+    private List<Article> articles;
 
 
 }
