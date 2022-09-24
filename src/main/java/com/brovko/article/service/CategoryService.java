@@ -15,7 +15,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public Category saveCategory(Category category) {
-        log.info("Trying to save category {}", category.getCategoryId());
+        log.info("Trying to save category {}", category.getCategory_id());
         return categoryRepository.save(category);
     }
 
@@ -45,7 +45,7 @@ public class CategoryService {
     }
 
     public Category updateCategory(Category category ) {
-        Long id = category.getCategoryId();
+        Long id = category.getCategory_id();
         log.info("Trying to delete categiry with id {}", id);
         Category updatedCategory = categoryRepository.findById(id).orElse(null);
         if(updatedCategory == null) return null;
