@@ -1,14 +1,8 @@
 package com.brovko.article.service;
 
 
-import com.brovko.article.model.Article;
-import com.brovko.article.model.Job;
-import com.brovko.article.model.Role;
-import com.brovko.article.model.User;
-import com.brovko.article.repository.ArticleRepository;
-import com.brovko.article.repository.JobRepository;
-import com.brovko.article.repository.RoleRepository;
-import com.brovko.article.repository.UserRepository;
+import com.brovko.article.model.*;
+import com.brovko.article.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,6 +26,8 @@ public class UserService implements UserDetailsService {
 
     private final ArticleRepository articleRepository;
     private final JobRepository jobRepository;
+    private final MembershipRepository membershipRepository;
+
 
     public String addArticleToUser(Long userId, Long articleId) {
         log.info("Trying to add article {} to user {}", articleId, userId);
@@ -138,6 +134,25 @@ public class UserService implements UserDetailsService {
 //        updatedUser.setJob(user.getJob());
 
         return userRepository.save(updatedUser);
+    }
+
+
+    public String addMembershipToUser(Long userId, Long membershipId) {
+        log.info("Trying to add membership {} to user {}", membershipId, userId);
+        Membership membership = membershipRepository.findById(membershipId).orElse(null);
+        System.out.println(membership);
+        User user = userRepository.findById(userId).orElse(null);
+        System.out.println(user);
+
+        if(user == null) return "User " + userId + " not found";
+        if(membership == null) return "Membership " + membershipId + " not found";
+
+        membership.getUsers().add(user);
+        user.setMembership(membership);
+        System.out.println(membership);
+        System.out.println(membershipRepository.save(membership));
+
+        return "Membership added to user successfully!";
     }
 
     @Override

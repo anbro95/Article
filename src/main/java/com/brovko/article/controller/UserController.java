@@ -83,6 +83,12 @@ public class UserController {
                                    @PathVariable(value = "jobId") Long jobId) {
         return userService.addJobToUser(userId, jobId);
     }
+    @PutMapping("/users/{userId}/membership/{membershipId}")
+    public String addMembershipToUser(@PathVariable(value = "membershipId") Long membershipId,
+                                      @PathVariable(value = "userId") Long userId) {
+
+        return userService.addMembershipToUser(userId, membershipId);
+    }
 }
 
 @Data

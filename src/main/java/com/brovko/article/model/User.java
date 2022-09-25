@@ -67,4 +67,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "job_id")
     )
     private List<Job> jobs;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "membership_id")
+    private Membership membership;
 }
