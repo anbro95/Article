@@ -2,15 +2,18 @@ package com.brovko.article.service;
 
 
 import com.brovko.article.model.*;
+import com.brovko.article.model.notification.EmailDetails;
 import com.brovko.article.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,6 +30,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final ArticleRepository articleRepository;
     private final JobRepository jobRepository;
     private final MembershipRepository membershipRepository;
+
+    private final String SEND_NOTIFICATION_URL = "http://localhost:8085/sendMail";
 
 
     public String addArticleToUser(Long userId, Long articleId) {
@@ -79,7 +84,23 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public User saveUser(User user) {
         log.info("Saving user with id {}", user.getUser_id());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        sendEmailToCreatedUser(user);
         return userRepository.save(user);
+    }
+
+    private void sendEmailToCreatedUser(User user) {
+        EmailDetails emailDetails = retrieveEmailDetails(user);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<EmailDetails> request = new HttpEntity<>(emailDetails);
+        restTemplate.postForObject(SEND_NOTIFICATION_URL, request, EmailDetails.class);
+    }
+
+    private EmailDetails retrieveEmailDetails(User user) {
+       return EmailDetails.builder()
+                .recipient(user.getEmail())
+                .msgBody("We are so happy that you decided to start your Article journey!")
+                .subject("Thank you for registration!")
+                .build();
     }
 
     public User getUserById(Long id) {
