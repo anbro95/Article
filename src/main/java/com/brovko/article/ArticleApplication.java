@@ -26,24 +26,24 @@ public class ArticleApplication {
 
 
     @Bean
-    CommandLineRunner run(UserServiceImpl userServiceImpl) {
+    CommandLineRunner run(UserServiceImpl userService) {
 
         return args -> {
-            userServiceImpl.saveRole(new Role("ROLE_USER"));
-            userServiceImpl.saveRole(new Role("ROLE_ADMIN"));
+            userService.saveRole(new Role("ROLE_USER"));
+            userService.saveRole(new Role("ROLE_ADMIN"));
 
-           userServiceImpl.saveUser(new User("Kostia", "1234", "ksurygin5@gmail.com", "+380951427261",
+           userService.saveUser(new User("Kostia", "1234", "ksurygin5@gmail.com", "+380951427261",
                    LocalDate.of(2002, 1, 17), 20, "Ukraine", "Odesa", "5959599593995393", "Shuryhin",
                    "Shkaff02", new ArrayList<>()));
-            userServiceImpl.saveUser(new User("Andrew", "1234", "anbro2002@gmail.com",
+            userService.saveUser(new User("Andrew", "1234", "anbro2002@gmail.com",
                     "+380859427462",
                     LocalDate.of(2002, 6, 27), 20, "Ukraine", "Odesa",
                     "5959599593995393", "Brovko",
                     "Biba", new ArrayList<>()));
 
-            userServiceImpl.addRoleToUser("Shkaff02", "ROLE_USER");
-            userServiceImpl.addRoleToUser("Shkaff02", "ROLE_ADMIN");
-            userServiceImpl.addRoleToUser("Biba", "ROLE_USER");
+            userService.addRoleToUser("Shkaff02", "ROLE_USER");
+            userService.addRoleToUser("Shkaff02", "ROLE_ADMIN");
+            userService.addRoleToUser("Biba", "ROLE_USER");
         };
     }
 }
