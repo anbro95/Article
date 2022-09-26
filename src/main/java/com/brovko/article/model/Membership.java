@@ -24,7 +24,7 @@ public class Membership {
 
     private String description;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "membership",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> users = new ArrayList<>();
 

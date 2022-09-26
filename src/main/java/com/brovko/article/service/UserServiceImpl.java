@@ -147,11 +147,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if(user == null) return "User " + userId + " not found";
         if(membership == null) return "Membership " + membershipId + " not found";
 
-//        membership.getUsers().add(user);
         user.setMembership(membership);
-        userRepository.save(user);
-        System.out.println(membership);
-//        System.out.println(membershipRepository.save(membership));
+        membership.getUsers().add(user);
+
+        membershipRepository.save(membership);
 
         return "Membership added to user successfully!";
     }
