@@ -2,6 +2,7 @@ package com.brovko.article.controller;
 
 import com.brovko.article.model.Membership;
 import com.brovko.article.service.MembershipService;
+import com.brovko.article.service.MembershipServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

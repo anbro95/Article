@@ -3,6 +3,7 @@ package com.brovko.article.controller;
 
 import com.brovko.article.model.Job;
 import com.brovko.article.service.JobService;
+import com.brovko.article.service.JobServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

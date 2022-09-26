@@ -3,6 +3,7 @@ package com.brovko.article.controller;
 
 import com.brovko.article.model.Article;
 import com.brovko.article.service.ArticleService;
+import com.brovko.article.service.ArticleServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

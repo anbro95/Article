@@ -31,7 +31,9 @@ public class User {
     private String country;
     private String city;
 
-//    private List<String> socialMediaLinks;
+    private String twitterLink;
+    private String instagramLink;
+    private String facebookLink;
     private String creditCardNumber;
 
     private String lastName;

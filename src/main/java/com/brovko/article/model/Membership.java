@@ -1,5 +1,6 @@
 package com.brovko.article.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class Membership {
 
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "membership",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> users = new ArrayList<>();
 
