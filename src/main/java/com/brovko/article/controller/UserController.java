@@ -1,16 +1,25 @@
 package com.brovko.article.controller;
 
 
+import com.brovko.article.dto.ArticleMapping;
+import com.brovko.article.dto.UserDTO;
+import com.brovko.article.model.Article;
 import com.brovko.article.model.Role;
 import com.brovko.article.model.User;
 import com.brovko.article.service.UserService;
 import com.brovko.article.service.UserServiceImpl;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.Converter;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.spi.DestinationSetter;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.print.attribute.standard.Destination;
 import java.net.URI;
 import java.util.List;
 
@@ -19,6 +28,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
+    private final ModelMapper modelMapper;
 
     @GetMapping("/roles")
     public ResponseEntity<List<Role>> getRoles() {
@@ -39,15 +50,19 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
+    public ResponseEntity<UserDTO> saveUser(@RequestBody User user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+        return ResponseEntity.created(uri).body(convertToDTO(userService.saveUser(user)));
+    }
+
+    private UserDTO convertToDTO(User user) {
+        return modelMapper.map(user, UserDTO.class);
     }
 
     @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
-        return ResponseEntity.ok().body(user == null ? "User " + id + " not found" : user);
+        return ResponseEntity.ok().body(user == null ? "User " + id + " not found" : convertToDTO(user));
     }
 
     @GetMapping("/users/name/{userName}")

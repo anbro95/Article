@@ -25,5 +25,4 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private List<Article> articles;
 
-
 }
