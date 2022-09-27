@@ -29,6 +29,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    public static User currUser;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -44,6 +45,7 @@ public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authentication) throws IOException, ServletException {
         User user = (User) authentication.getPrincipal();
+        currUser = user;
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); //simplifying (not secure)
         String access_token = JWT.create()
                 .withSubject(user.getUsername())

@@ -1,11 +1,16 @@
 package com.brovko.article.controller;
 
 
+import com.brovko.article.filter.MyAuthenticationFilter;
 import com.brovko.article.model.Article;
+import com.brovko.article.model.User;
 import com.brovko.article.service.ArticleService;
 import com.brovko.article.service.ArticleServiceImpl;
+import com.brovko.article.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -17,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArticleController {
     private final ArticleService articleService;
+    private final UserService userService;
 
     @PostMapping("/articles/{user_id}")
     public ResponseEntity<Article> saveArticle(@RequestBody Article article,
@@ -44,7 +50,12 @@ public class ArticleController {
 
     @GetMapping("/articles")
     public ResponseEntity<List<Article>> getAllArticles() {
-        return ResponseEntity.ok().body(articleService.getAllArticles());
+        User user = userService.getCurrentUser();
+        if(user.getMembership() == null) {
+            return ResponseEntity.ok().body(articleService.getArticlesByPremium(false));
+        } else {
+            return ResponseEntity.ok().body(articleService.getArticlesByPremium(true));
+        }
     }
 
     @PutMapping("/articles")
@@ -52,12 +63,5 @@ public class ArticleController {
         Article updatedArticle = articleService.updateArticle(article);
         return ResponseEntity.ok().body(updatedArticle == null ? "Article " + article.getArticle_id() + " not found" : article);
     }
-
-//    @PutMapping("/articles/{id}/category/{cid}")
-//    public String addCategoryToArticle(@PathVariable (value = "id") Long articleId,
-//                                       @PathVariable(value = "cid") Long categoryId) {
-//
-//        return articleService.addCategoryToArticle(articleId, categoryId);
-//    }
 
 }

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -65,6 +66,7 @@ public class ArticleServiceImpl implements ArticleService{
             return null;
         }
 
+        updatedArticle.setPremium(article.isPremium());
         updatedArticle.setName(article.getName());
         updatedArticle.setText(article.getText());
         return articleRepository.save(updatedArticle);
@@ -82,5 +84,15 @@ public class ArticleServiceImpl implements ArticleService{
         categoryRepository.save(category);
 
         return "Category added to article successfully";
+    }
+
+    public List<Article> getArticlesByPremium(boolean isPremium){
+        List<Article> free = articleRepository.getArticlesByPremium(false);
+        if(isPremium) {
+            List<Article> premiums = articleRepository.getArticlesByPremium(true);
+            return Stream.concat(premiums.stream(), free.stream()).toList();
+        } else{
+            return free;
+        }
     }
 }
