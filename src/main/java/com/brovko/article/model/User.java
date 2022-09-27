@@ -70,7 +70,7 @@ public class User {
     )
     private List<Job> jobs;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "membership_id")
     private Membership membership;
 }
