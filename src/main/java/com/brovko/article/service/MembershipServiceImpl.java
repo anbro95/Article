@@ -48,7 +48,6 @@ public class MembershipServiceImpl implements MembershipService{
         if(updatedMembership == null) return null;
 
         updatedMembership.setDescription(membership.getDescription());
-        updatedMembership.setMembershipType(membership.getMembershipType());
 
         return membershipRepository.save(membership);
     }

@@ -21,6 +21,7 @@ public class Article {
     private Long article_id;
 
     private String name;
+    private boolean premium;
     private String text;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(

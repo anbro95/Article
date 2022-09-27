@@ -20,19 +20,10 @@ public class Membership {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long membership_id;
 
-    private MembershipTypes membershipType;
-
     private String description;
 
-//    @JsonIgnore
-    @OneToMany(mappedBy = "membership",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> users = new ArrayList<>();
 
-
-}
-
-enum MembershipTypes {
-    FULL,
-    HALF,
-    NONE
 }

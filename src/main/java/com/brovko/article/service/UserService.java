@@ -18,4 +18,5 @@ public interface UserService {
     String deleteUserById(Long id);
     User updateUser(User user);
     String addMembershipToUser(Long userId, Long membershipId);
+    User getCurrentUser();
 }
