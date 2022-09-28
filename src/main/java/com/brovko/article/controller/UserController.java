@@ -3,6 +3,7 @@ package com.brovko.article.controller;
 
 import com.brovko.article.model.Role;
 import com.brovko.article.model.User;
+import com.brovko.article.repository.UserRepository;
 import com.brovko.article.service.UserService;
 import com.brovko.article.service.UserServiceImpl;
 import lombok.Data;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -83,11 +85,12 @@ public class UserController {
                                    @PathVariable(value = "jobId") Long jobId) {
         return userService.addJobToUser(userId, jobId);
     }
-    @PutMapping("/users/{userId}/membership/{membershipId}")
-    public String addMembershipToUser(@PathVariable(value = "membershipId") Long membershipId,
-                                      @PathVariable(value = "userId") Long userId) {
 
-        return userService.addMembershipToUser(userId, membershipId);
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<?> setPremiumUser(@PathVariable Long id, @RequestBody Map<String, Boolean> map){
+        User user = userService.setPremiumUser(id, map);
+
+        return ResponseEntity.ok().body(user == null ? "User " + id + " not found" : user);
     }
 }
 

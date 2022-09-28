@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +31,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     private final ArticleRepository articleRepository;
     private final JobRepository jobRepository;
-    private final MembershipRepository membershipRepository;
 
     private final String SEND_NOTIFICATION_URL = "http://localhost:8085/sendMail";
 
@@ -88,20 +88,21 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         sendEmailToCreatedUser(user);
         return userRepository.save(user);
     }
-
+// TODO uncomment this
     private void sendEmailToCreatedUser(User user) {
-        EmailDetails emailDetails = retrieveEmailDetails(user);
-        RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<EmailDetails> request = new HttpEntity<>(emailDetails);
-        restTemplate.postForObject(SEND_NOTIFICATION_URL, request, EmailDetails.class);
+//        EmailDetails emailDetails = retrieveEmailDetails(user);
+//        RestTemplate restTemplate = new RestTemplate();
+//        HttpEntity<EmailDetails> request = new HttpEntity<>(emailDetails);
+//        restTemplate.postForObject(SEND_NOTIFICATION_URL, request, EmailDetails.class);
     }
 
     private EmailDetails retrieveEmailDetails(User user) {
-       return EmailDetails.builder()
-                .recipient(user.getEmail())
-                .msgBody("We are so happy that you decided to start your Article journey!")
-                .subject("Thank you for registration!")
-                .build();
+//       return EmailDetails.builder()
+//                .recipient(user.getEmail())
+//                .msgBody("We are so happy that you decided to start your Article journey!")
+//                .subject("Thank you for registration!")
+//                .build();
+        return null;
     }
 
     public User getUserById(Long id) {
@@ -148,34 +149,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         updatedUser.setPassword(user.getPassword());
         updatedUser.setBirthDate(user.getBirthDate());
         updatedUser.setCreatedAt(user.getCreatedAt());
+        updatedUser.setPremium(user.isPremium());
 
         updatedUser.setPhone(user.getPhone());
-//        updatedUser.setArticles(user.getArticles());
-//        updatedUser.setSocialMediaLinks(user.getSocialMediaLinks());
+        updatedUser.setArticles(user.getArticles());
         updatedUser.setCreditCardNumber(user.getCreditCardNumber());
-//        updatedUser.setJob(user.getJob());
+        updatedUser.setJobs(user.getJobs());
 
         return userRepository.save(updatedUser);
     }
 
 
-    public String addMembershipToUser(Long userId, Long membershipId) {
-        log.info("Trying to add membership {} to user {}", membershipId, userId);
-        Membership membership = membershipRepository.findById(membershipId).orElse(null);
-        System.out.println(membership);
-        User user = userRepository.findById(userId).orElse(null);
-        System.out.println(user);
 
-        if(user == null) return "User " + userId + " not found";
-        if(membership == null) return "Membership " + membershipId + " not found";
-
-        user.setMembership(membership);
-        membership.getUsers().add(user);
-
-        membershipRepository.save(membership);
-
-        return "Membership added to user successfully!";
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -203,5 +188,27 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         User user = getUserByUserName(username);
         return user;
+    }
+
+
+    public boolean checkUserArticleAccess(Article article) {
+        User user = getCurrentUser();
+        if(!article.isPremium()) {
+            return true;
+        } else {
+            if (user.isPremium()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public User setPremiumUser(Long id, Map<String, Boolean> map){
+        User user = userRepository.findById(id).orElse(null);
+        if(user == null) return null;
+
+        user.setPremium(map.get("premium"));
+        return userRepository.save(user);
     }
 }
