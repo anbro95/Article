@@ -34,7 +34,15 @@ public class ArticleController {
     @GetMapping("/articles/{id}")
     public ResponseEntity<?> getArticleById(@PathVariable Long id) {
         Article article = articleService.getArticleById(id);
-        return ResponseEntity.ok().body(article == null ? "Article " + id + " not found" : article);
+        if(article == null) {
+            return ResponseEntity.ok().body("Article with id " + id + " not found");
+        } else {
+            if(userService.checkUserArticleAccess(article)) {
+                return ResponseEntity.ok().body(article);
+            } else {
+                return ResponseEntity.ok().body("Sorry, you do not have Premium Membership to view this article");
+            }
+        }
     }
 
     @GetMapping("/articles/name/{name}")
@@ -50,12 +58,7 @@ public class ArticleController {
 
     @GetMapping("/articles")
     public ResponseEntity<List<Article>> getAllArticles() {
-        User user = userService.getCurrentUser();
-        if(user.getMembership() == null) {
-            return ResponseEntity.ok().body(articleService.getArticlesByPremium(false));
-        } else {
-            return ResponseEntity.ok().body(articleService.getArticlesByPremium(true));
-        }
+        return ResponseEntity.ok().body(articleService.getAllArticles());
     }
 
     @PutMapping("/articles")

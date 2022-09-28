@@ -3,6 +3,7 @@ package com.brovko.article.service;
 
 import com.brovko.article.model.Article;
 import com.brovko.article.model.Category;
+import com.brovko.article.model.User;
 import com.brovko.article.repository.ArticleRepository;
 import com.brovko.article.repository.CategoryRepository;
 import com.brovko.article.repository.UserRepository;
@@ -19,7 +20,7 @@ import java.util.stream.Stream;
 public class ArticleServiceImpl implements ArticleService{
     private final ArticleRepository articleRepository;
     private final CategoryRepository categoryRepository;
-
+    private final UserService userService;
     private final UserRepository userRepository;
 
     public Article saveArticle(Article article, Long id){
@@ -36,9 +37,16 @@ public class ArticleServiceImpl implements ArticleService{
         return articleRepository.findById(id).orElse(null);
     }
 
+
+
     public List<Article> getAllArticles() {
         log.info("Getting list of all Articles");
-        return articleRepository.findAll();
+        User user = userService.getCurrentUser();
+        if(!user.isPremium()) {
+            return getArticlesByPremium(false);
+        } else {
+            return getArticlesByPremium(true);
+        }
     }
 
     public Article getArticleByName(String name) {

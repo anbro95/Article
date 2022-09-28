@@ -1,6 +1,5 @@
 package com.brovko.article;
 
-import com.brovko.article.model.Membership;
 import com.brovko.article.model.Role;
 import com.brovko.article.model.User;
 import com.brovko.article.service.UserServiceImpl;
@@ -32,7 +31,6 @@ public class ArticleApplication {
         return args -> {
             userService.saveRole(new Role("ROLE_USER"));
             userService.saveRole(new Role("ROLE_ADMIN"));
-            Membership membership = new Membership(1L, "Paid membership", new ArrayList<>());
 
            userService.saveUser(new User("Kostia", "1234", "ksurygin5@gmail.com", "+380951427261",
                    LocalDate.of(2002, 1, 17), 20, "Ukraine", "Odesa", "5959599593995393", "Shuryhin",

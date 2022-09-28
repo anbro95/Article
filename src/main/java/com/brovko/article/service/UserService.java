@@ -1,9 +1,11 @@
 package com.brovko.article.service;
 
+import com.brovko.article.model.Article;
 import com.brovko.article.model.Role;
 import com.brovko.article.model.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     String addArticleToUser(Long userId, Long articleId);
@@ -17,6 +19,7 @@ public interface UserService {
     User getUserByUserName(String userName);
     String deleteUserById(Long id);
     User updateUser(User user);
-    String addMembershipToUser(Long userId, Long membershipId);
     User getCurrentUser();
+    boolean checkUserArticleAccess(Article article);
+    User setPremiumUser(Long id, Map<String, Boolean> map);
 }

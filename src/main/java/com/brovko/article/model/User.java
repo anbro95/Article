@@ -36,6 +36,8 @@ public class User {
     private String facebookLink;
     private String creditCardNumber;
 
+    private boolean premium;
+
     private String lastName;
     private String userName;
     @OneToMany(mappedBy = "user")
@@ -70,7 +72,4 @@ public class User {
     )
     private List<Job> jobs;
 
-    @ManyToOne()
-    @JoinColumn(name = "membership_id")
-    private Membership membership;
 }
