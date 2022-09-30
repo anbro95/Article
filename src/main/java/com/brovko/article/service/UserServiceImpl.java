@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final ArticleRepository articleRepository;
     private final JobRepository jobRepository;
 
-    private final String SEND_NOTIFICATION_URL = "http://localhost:8085/sendMail";
+    private final String SEND_NOTIFICATION_URL = "https://article-notification-service.herokuapp.com/sendMail";
 
 
     public String addArticleToUser(Long userId, Long articleId) {
@@ -90,19 +90,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 // TODO uncomment this
     private void sendEmailToCreatedUser(User user) {
-//        EmailDetails emailDetails = retrieveEmailDetails(user);
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpEntity<EmailDetails> request = new HttpEntity<>(emailDetails);
-//        restTemplate.postForObject(SEND_NOTIFICATION_URL, request, EmailDetails.class);
+        EmailDetails emailDetails = retrieveEmailDetails(user);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<EmailDetails> request = new HttpEntity<>(emailDetails);
+        restTemplate.postForObject(SEND_NOTIFICATION_URL, request, EmailDetails.class);
     }
 
     private EmailDetails retrieveEmailDetails(User user) {
-//       return EmailDetails.builder()
-//                .recipient(user.getEmail())
-//                .msgBody("We are so happy that you decided to start your Article journey!")
-//                .subject("Thank you for registration!")
-//                .build();
-        return null;
+       return EmailDetails.builder()
+                .recipient(user.getEmail())
+                .msgBody("We are so happy that you decided to start your Article journey!")
+                .subject("Thank you for registration!")
+                .build();
     }
 
     public User getUserById(Long id) {
