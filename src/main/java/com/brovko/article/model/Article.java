@@ -23,7 +23,7 @@ public class Article {
     private String name;
     private boolean premium;
     private String text;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "articles_categories",
             joinColumns = @JoinColumn(name = "article_id"),

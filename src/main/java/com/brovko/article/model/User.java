@@ -1,6 +1,7 @@
 package com.brovko.article.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,6 +17,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "user_id")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +43,8 @@ public class User {
 
     private String lastName;
     private String userName;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+                cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Article> articles;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -71,5 +75,25 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "job_id")
     )
     private List<Job> jobs;
+    @ManyToMany()
+    @JoinTable(
+            name = "users_following",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "following")
+    )
+    private List<User> following;
+
+    @ManyToMany()
+    @JoinTable(
+            name = "users_followers",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "followers")
+    )
+    private List<User> followers;
+
+
+
+
+
 
 }

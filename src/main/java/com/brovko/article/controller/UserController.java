@@ -92,6 +92,11 @@ public class UserController {
 
         return ResponseEntity.ok().body(user == null ? "User " + id + " not found" : user);
     }
+
+    @PutMapping("/users/{id}/follower/{id2}")
+    public ResponseEntity<?> addFollowerToUser(@PathVariable(value = "id") Long id, @PathVariable(value = "id2") Long id2) {
+        return ResponseEntity.ok().body(userService.addFollowerToUser(id, id2));
+    }
 }
 
 @Data
