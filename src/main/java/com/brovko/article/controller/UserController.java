@@ -1,6 +1,8 @@
 package com.brovko.article.controller;
 
 
+import com.brovko.article.dto.mappers.UserMapper;
+import com.brovko.article.dto.models.UserDTO;
 import com.brovko.article.model.Role;
 import com.brovko.article.model.User;
 import com.brovko.article.repository.UserRepository;
@@ -41,21 +43,22 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
+    public ResponseEntity<UserDTO> saveUser(@RequestBody User user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+        return ResponseEntity.created(uri).body(UserMapper.USER_MAPPER.toDTO(userService.saveUser(user)));
     }
 
     @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
-        return ResponseEntity.ok().body(user == null ? "User " + id + " not found" : user);
+        return ResponseEntity.ok().body(user == null ? "User " + id + " not found" : UserMapper.USER_MAPPER.toDTO(user));
     }
 
     @GetMapping("/users/name/{userName}")
     public ResponseEntity<?> getUserByUserName(@PathVariable String userName) {
         User user = userService.getUserByUserName(userName);
-        return ResponseEntity.ok().body(user == null ? "User \"" + userName + "\" not found" : user);
+        return ResponseEntity.ok().body(user == null ? "User \"" + userName + "\" not found" :
+                UserMapper.USER_MAPPER.toDTO(user));
     }
 
     @DeleteMapping("/users/delete/{id}")
@@ -64,14 +67,15 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok().body(userService.getAllUsers());
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return ResponseEntity.ok().body(UserMapper.USER_MAPPER.UsersToUsersDTO(userService.getAllUsers()));
     }
 
     @PutMapping ("/users")
     public ResponseEntity<?> updateUser(@RequestBody User user) {
         User updatedUser = userService.updateUser(user);
-        return ResponseEntity.ok().body(updatedUser == null ? "User " + user.getUser_id() + " not found" : user);
+        return ResponseEntity.ok().body(updatedUser == null ? "User " + user.getUser_id() + " not found" :
+                UserMapper.USER_MAPPER.toDTO(user));
     }
 
     @PutMapping("/users/{userId}/article/{articleId}")
@@ -90,7 +94,8 @@ public class UserController {
     public ResponseEntity<?> setPremiumUser(@PathVariable Long id, @RequestBody Map<String, Boolean> map){
         User user = userService.setPremiumUser(id, map);
 
-        return ResponseEntity.ok().body(user == null ? "User " + id + " not found" : user);
+        return ResponseEntity.ok().body(user == null ? "User " + id + " not found" :
+                UserMapper.USER_MAPPER.toDTO(user));
     }
 
     @PutMapping("/users/{id}/follower/{id2}")
