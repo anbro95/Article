@@ -29,8 +29,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final ArticleRepository articleRepository;
     private final JobRepository jobRepository;
 
-    private final String SEND_NOTIFICATION_URL = "http://localhost:8085/sendMail";
-    private final String SEND_NOTIFICATION_URL2 = "http://localhost:8085/sendMailToFollowers";
+    private final String SEND_NOTIFICATION_URL = "https://article-notification-service.herokuapp.com/sendMail";
+    private final String SEND_NOTIFICATION_URL2 = "https://article-notification-service.herokuapp.com/sendMailToFollowers";
+
 
 
     public String addArticleToUser(Long userId, Long articleId) {
@@ -88,10 +89,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 // TODO uncomment this
     private void sendEmailToCreatedUser(User user) {
-//        EmailDetails emailDetails = retrieveEmailDetails(user);
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpEntity<EmailDetails> request = new HttpEntity<>(emailDetails);
-//        restTemplate.postForObject(SEND_NOTIFICATION_URL, request, EmailDetails.class);
+        EmailDetails emailDetails = retrieveEmailDetails(user);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<EmailDetails> request = new HttpEntity<>(emailDetails);
+        restTemplate.postForObject(SEND_NOTIFICATION_URL, request, EmailDetails.class);
     }
 
     private EmailDetails retrieveEmailDetails(User user) {

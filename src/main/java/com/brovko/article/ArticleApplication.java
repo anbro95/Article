@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 
 @SpringBootApplication
@@ -33,11 +35,11 @@ public class ArticleApplication {
             userService.saveRole(new Role("ROLE_ADMIN"));
 
            userService.saveUser(new User("Kostia", "1234", "ksurygin5@gmail.com", "+380951427261",
-                   LocalDate.of(2002, 1, 17), 20, "Ukraine", "Odesa", "5959599593995393", "Shuryhin",
+                   LocalDateTime.of(2002, Month.JANUARY, 17, 18, 30), 20, "Ukraine", "Odesa", "5959599593995393", "Shuryhin",
                    "Shkaff02", new ArrayList<>()));
             userService.saveUser(new User("Andrew", "1234", "anbro2002@gmail.com",
                     "+380859427462",
-                    LocalDate.of(2002, 6, 27), 20, "Ukraine", "Odesa",
+                    LocalDateTime.of(2002, Month.JUNE, 27, 18, 30), 20, "Ukraine", "Odesa",
                     "5959599593995393", "Brovko",
                     "Biba", new ArrayList<>()));
 
