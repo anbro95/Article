@@ -22,4 +22,5 @@ public interface UserService {
     User getCurrentUser();
     boolean checkUserArticleAccess(Article article);
     User setPremiumUser(Long id, Map<String, Boolean> map);
+    String addFollowerToUser(Long userId, Long followerId);
 }

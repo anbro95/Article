@@ -1,6 +1,8 @@
 package com.brovko.article.controller;
 
 
+import com.brovko.article.dto.mappers.CategoryMapper;
+import com.brovko.article.dto.models.CategoryDTO;
 import com.brovko.article.model.Category;
 import com.brovko.article.service.CategoryService;
 import com.brovko.article.service.CategoryServiceImpl;
@@ -27,18 +29,21 @@ public class CategoryController {
     @GetMapping("/categories/{id}")
     public ResponseEntity<?> getCategoryById(@PathVariable Long id) {
         Category category = categoryService.getCategoryById(id);
-        return ResponseEntity.ok().body(category == null ? "Category " + id + " not found" : category);
+        return ResponseEntity.ok().body(category == null ? "Category " + id + " not found" :
+                CategoryMapper.CATEGORY_MAPPER.toDTO(category));
     }
 
     @GetMapping("/categories/name/{name}")
     public ResponseEntity<?> getCategoryById(@PathVariable String name) {
         Category category = categoryService.getCategoryByName(name);
-        return ResponseEntity.ok().body(category == null ? "Category '" + name + "' not found" : category);
+        return ResponseEntity.ok().body(category == null ? "Category '" + name + "' not found" :
+                CategoryMapper.CATEGORY_MAPPER.toDTO(category));
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<List<Category>> getAllCategories() {
-        return ResponseEntity.ok().body(categoryService.getAllCategories());
+    public ResponseEntity<List<CategoryDTO>> getAllCategories() {
+        return ResponseEntity.ok().body(CategoryMapper
+                .CATEGORY_MAPPER.CategoriesToCategoriesDTO(categoryService.getAllCategories()));
     }
 
     @DeleteMapping("/categories/{id}")
@@ -50,6 +55,7 @@ public class CategoryController {
     public ResponseEntity<?> updateCategory(@RequestBody Category category) {
         Category updatedCategory = categoryService.updateCategory(category);
         return ResponseEntity.ok().body(updatedCategory == null ? "Could not update category " +
-                                                                    category.getCategory_id() : updatedCategory);
+                                                                    category.getCategory_id() :
+                                                                    CategoryMapper.CATEGORY_MAPPER.toDTO(updatedCategory));
     }
 }

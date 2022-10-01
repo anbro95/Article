@@ -210,4 +210,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         user.setPremium(map.get("premium"));
         return userRepository.save(user);
     }
+
+    public String addFollowerToUser(Long userId, Long followerId) {
+        User user = getUserById(userId);
+        User follower = getUserById(followerId);
+
+        user.getFollowers().add(follower);
+        follower.getFollowing().add(user);
+        userRepository.save(user);
+        userRepository.save(follower);
+        return "Follower added to user";
+    }
+
+
 }
