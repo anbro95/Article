@@ -29,7 +29,11 @@ public class ArticleServiceImpl implements ArticleService{
         article.getCategories_id().forEach(category_id -> article
                 .getCategories().add(categoryRepository.findById(category_id).orElse(null)));
         article.setUser(userRepository.findById(id).orElse(null));
-        return articleRepository.save(article);
+
+
+        articleRepository.save(article);
+        userService.sendEmailToFollowers(article);
+        return article;
     }
 
     public Article getArticleById(Long id) {

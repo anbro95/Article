@@ -16,10 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +30,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final JobRepository jobRepository;
 
     private final String SEND_NOTIFICATION_URL = "http://localhost:8085/sendMail";
+    private final String SEND_NOTIFICATION_URL2 = "http://localhost:8085/sendMailToFollowers";
 
 
     public String addArticleToUser(Long userId, Long articleId) {
@@ -97,12 +95,36 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     private EmailDetails retrieveEmailDetails(User user) {
-//       return EmailDetails.builder()
-//                .recipient(user.getEmail())
-//                .msgBody("We are so happy that you decided to start your Article journey!")
-//                .subject("Thank you for registration!")
-//                .build();
-        return null;
+       return EmailDetails.builder()
+                .recipients(Arrays.asList(user.getEmail()))
+                .msgBody("We are so happy that you decided to start your Article journey!")
+                .subject("Thank you for registration!")
+                .build();
+    }
+//  TODO uncomment this
+    public void sendEmailToFollowers(Article article) {
+//        EmailDetails emailDetails = emailToFollowersDetails(article);
+//        RestTemplate restTemplate = new RestTemplate();
+//        HttpEntity<EmailDetails> request = new HttpEntity<>(emailDetails);
+//        restTemplate.postForObject(SEND_NOTIFICATION_URL2, request, EmailDetails.class);
+    }
+
+    private EmailDetails emailToFollowersDetails(Article article) {
+        User author = article.getUser();
+        List<User> followers = author.getFollowers();
+        String name = article.getName();
+        String message = "Hey, we have to inform you that " + author.getFirstName() + " " + author.getLastName()
+                + " just posted new article: " + "'" + name + "'. You might be interested in it.";
+        List<String> emails = new ArrayList<>();
+        for (User f : followers) {
+            emails.add(f.getEmail());
+        }
+
+        return EmailDetails.builder()
+                .recipients(emails)
+                .msgBody(message)
+                .subject("Person you follow posted new article")
+                .build();
     }
 
     public User getUserById(Long id) {
