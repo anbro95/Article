@@ -1,11 +1,13 @@
 package com.brovko.article.service;
 
 
+import com.brovko.article.messaging.Constants;
 import com.brovko.article.model.*;
 import com.brovko.article.model.notification.EmailDetails;
 import com.brovko.article.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +30,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     private final ArticleRepository articleRepository;
     private final JobRepository jobRepository;
+
+    private final RabbitTemplate rabbitTemplate;
 
     private final String SEND_NOTIFICATION_URL = "https://article-notification-service.herokuapp.com/sendMail";
     private final String SEND_NOTIFICATION_URL2 = "https://article-notification-service.herokuapp.com/sendMailToFollowers";
@@ -90,9 +94,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 // TODO uncomment this
     private void sendEmailToCreatedUser(User user) {
         EmailDetails emailDetails = retrieveEmailDetails(user);
-        RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<EmailDetails> request = new HttpEntity<>(emailDetails);
-        restTemplate.postForObject(SEND_NOTIFICATION_URL, request, EmailDetails.class);
+        rabbitTemplate.convertAndSend(Constants.EXCHANGE, Constants.ROUTING_KEY, emailDetails);
+//        RestTemplate restTemplate = new RestTemplate();
+//        HttpEntity<EmailDetails> request = new HttpEntity<>(emailDetails);
+//        restTemplate.postForObject(SEND_NOTIFICATION_URL, request, EmailDetails.class);
     }
 
     private EmailDetails retrieveEmailDetails(User user) {
