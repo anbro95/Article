@@ -1,10 +1,12 @@
 package com.brovko.article;
 
+import com.brovko.article.messaging.RabbitMQSender;
 import com.brovko.article.model.Role;
 import com.brovko.article.model.User;
 import com.brovko.article.service.UserServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,7 +15,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
-
 @SpringBootApplication
 public class ArticleApplication {
 
