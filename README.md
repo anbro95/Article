@@ -6,7 +6,7 @@
     <img src="https://cdn-icons-png.flaticon.com/512/3079/3079967.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Article</h3>
+  <h3>Article</h3>
 
 
 <!-- TABLE OF CONTENTS -->
@@ -46,7 +46,6 @@ This REST API can be called Medium clone. It represents web-application that pro
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 * [![Java][Java]][java.com]
 * [![Docker][Docker]][docker.com]
