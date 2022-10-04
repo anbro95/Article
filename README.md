@@ -17,14 +17,16 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
+    </li>
+    <li>
+       <a href="#built-with">Built With</a>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#usage">Usage</a>
+    </li>
   </ol>
 </details>
 
@@ -34,7 +36,7 @@
 ## About The Project
 
 
-This REST API can be called Medium clone. It represents web-application that provides such functions:
+This REST API provides such functions:
 
 * CRUD for articles, users, users' jobs, categories of articles. Endpoints for adding new job to user, adding new followers to user
 * After saving new user in database an email will be sent to him
