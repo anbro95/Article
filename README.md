@@ -2,16 +2,18 @@
 <!-- PROJECT LOGO -->
 <br />
 <div>
+  <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
     <img src="https://cdn-icons-png.flaticon.com/512/3079/3079967.png" alt="Logo" width="80" height="80">
   </a>
+    </div>
 
-  <h3>Article</h3>
+  <h3 align="center">Article</h3>
 
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table of Contents</summary>
+  <summary align="center">Table of Contents</summary>
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
