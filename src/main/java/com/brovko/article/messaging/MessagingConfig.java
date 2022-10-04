@@ -22,9 +22,12 @@ import org.springframework.util.ErrorHandler;
 @EnableRabbit
 @Configuration
 public class MessagingConfig {
-    private String queueName = "rabbitmq.queue";
-    private String exchange = "rabbitmq.exchange";
-    private String routingkey = "rabbitmq.routingkey";
+    @Value("${spring.rabbitmq.queue}")
+    private String queueName;
+    @Value("${spring.rabbitmq.exchange}")
+    private String exchange;
+    @Value("${spring.rabbitmq.routingkey}")
+    private String routingkey;
     @Value("${spring.rabbitmq.username}")
     private String username;
     @Value("${spring.rabbitmq.password}")
@@ -33,9 +36,12 @@ public class MessagingConfig {
     private String host;
     @Value("${spring.rabbitmq.virtualhost}")
     private String virtualHost;
-    private Integer replyTimeout = 60000;
-    private Integer concurrentConsumers = 1;
-    private Integer maxConcurrentConsumers = 1;
+    @Value("${spring.rabbitmq.reply.timeout}")
+    private Integer replyTimeout;
+    @Value("${spring.rabbitmq.concurrent.consumers}")
+    private Integer concurrentConsumers;
+    @Value("${spring.rabbitmq.max.concurrent.consumers}")
+    private Integer maxConcurrentConsumers;
     @Bean
     public Queue queue() {
         return new Queue(queueName, false);

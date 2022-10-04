@@ -31,10 +31,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     private final RabbitMQSender sender;
 
-    private final String SEND_NOTIFICATION_URL = "https://article-notification-service.herokuapp.com/sendMail";
-    private final String SEND_NOTIFICATION_URL2 = "https://article-notification-service.herokuapp.com/sendMailToFollowers";
-
-
 
     public String addArticleToUser(Long userId, Long articleId) {
         log.info("Trying to add article {} to user {}", articleId, userId);
@@ -89,13 +85,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         sendEmailToCreatedUser(user);
         return userRepository.save(user);
     }
-// TODO uncomment this
     private void sendEmailToCreatedUser(User user) {
         EmailDetails emailDetails = retrieveEmailDetails(user);
         sender.send(emailDetails);
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpEntity<EmailDetails> request = new HttpEntity<>(emailDetails);
-//        restTemplate.postForObject(SEND_NOTIFICATION_URL, request, EmailDetails.class);
     }
 
     private EmailDetails retrieveEmailDetails(User user) {
@@ -105,12 +97,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 .subject("Thank you for registration!")
                 .build();
     }
-//  TODO uncomment this
     public void sendEmailToFollowers(Article article) {
-//        EmailDetails emailDetails = emailToFollowersDetails(article);
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpEntity<EmailDetails> request = new HttpEntity<>(emailDetails);
-//        restTemplate.postForObject(SEND_NOTIFICATION_URL2, request, EmailDetails.class);
+        EmailDetails emailDetails = emailToFollowersDetails(article);
+        sender.send(emailDetails);
     }
 
     private EmailDetails emailToFollowersDetails(Article article) {

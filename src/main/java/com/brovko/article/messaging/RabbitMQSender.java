@@ -10,15 +10,19 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Service
 public class RabbitMQSender {
 
-    @Autowired
     private AmqpTemplate rabbitTemplate;
-    @Autowired
     private Queue queue;
+
+    @Autowired
+    public RabbitMQSender(AmqpTemplate rabbitTemplate, Queue queue) {
+        this.rabbitTemplate = rabbitTemplate;
+        this.queue = queue;
+    }
+
     public void send(EmailDetails emailDetails) {
         rabbitTemplate.convertAndSend(queue.getName(), emailDetails);
     }
