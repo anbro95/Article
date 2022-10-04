@@ -72,6 +72,7 @@ public class UserServiceImplTest {
     }
 
     @Test
+
     void roles() {
         List<Role> roles = Arrays.asList(new Role("test_1"), new Role("test_2"));
         doReturn(roles).when(roleRepository).findAll();
@@ -99,6 +100,13 @@ public class UserServiceImplTest {
 
         Assertions.assertThat(userService.getAllUsers()).isEqualTo(users);
         verify(userRepository).findAll();
+    }
+
+    @Test
+    void delete_user_by_id() {
+        Long id = 1L;
+        userService.deleteUserById(id);
+        verify(userRepository).deleteById(id);
     }
 
 }

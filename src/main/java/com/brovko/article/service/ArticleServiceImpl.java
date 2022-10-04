@@ -25,7 +25,6 @@ public class ArticleServiceImpl implements ArticleService{
 
     public Article saveArticle(Article article, Long id, List<Long> cat_id){
         log.info("Saving Article with id {}", article.getArticle_id());
-        // temp
         cat_id.forEach(category_id -> article
                 .getCategories().add(categoryRepository.findById(category_id).orElse(null)));
         article.setUser(userRepository.findById(id).orElse(null));
