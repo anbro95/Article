@@ -1,7 +1,7 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
+<div>
   <a href="https://github.com/othneildrew/Best-README-Template">
     <img src="https://cdn-icons-png.flaticon.com/512/3079/3079967.png" alt="Logo" width="80" height="80">
   </a>
