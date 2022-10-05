@@ -32,7 +32,7 @@
 
 
 
-<!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 
@@ -61,14 +61,14 @@ This REST API provides such functions:
 
 
 
-<!-- GETTING STARTED -->
-## Getting Started
+
+<!--  ## Getting Started  -->
 
 
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
+
+<!--  ## Usage  -->
 
 
 
