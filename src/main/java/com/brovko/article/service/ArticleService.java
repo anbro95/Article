@@ -11,7 +11,6 @@ public interface ArticleService {
     Article getArticleByName(String name);
     String deleteArticleById(Long id);
     Article updateArticle(Article article);
-    String addCategoryToArticle(Long articleId, Long categoryId);
     List<Article> getArticlesByPremium(boolean isPremium);
 
 }

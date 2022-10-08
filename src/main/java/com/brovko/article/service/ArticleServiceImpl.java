@@ -1,8 +1,6 @@
 package com.brovko.article.service;
 
-
 import com.brovko.article.model.Article;
-import com.brovko.article.model.Category;
 import com.brovko.article.model.User;
 import com.brovko.article.repository.ArticleRepository;
 import com.brovko.article.repository.CategoryRepository;
@@ -10,7 +8,6 @@ import com.brovko.article.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -23,11 +20,11 @@ public class ArticleServiceImpl implements ArticleService{
     private final UserService userService;
     private final UserRepository userRepository;
 
-    public Article saveArticle(Article article, Long id, List<Long> cat_id){
-        log.info("Saving Article with id {}", article.getArticle_id());
+    public Article saveArticle(Article article, Long userId, List<Long> cat_id){
+        log.info("Saving Article with userId {}", article.getArticle_id());
         cat_id.forEach(category_id -> article
                 .getCategories().add(categoryRepository.findById(category_id).orElse(null)));
-        article.setUser(userRepository.findById(id).orElse(null));
+        article.setUser(userRepository.findById(userId).orElse(null));
 
 
         articleRepository.save(article);
@@ -80,22 +77,11 @@ public class ArticleServiceImpl implements ArticleService{
         updatedArticle.setPremium(article.isPremium());
         updatedArticle.setName(article.getName());
         updatedArticle.setText(article.getText());
+        updatedArticle.setCategories(article.getCategories());
+        updatedArticle.setUser(article.getUser());
         return articleRepository.save(updatedArticle);
     }
 
-    public String addCategoryToArticle(Long articleId, Long categoryId) {
-        log.info("Trying to add category {} to article {}", categoryId, articleId);
-        Article article = articleRepository.findById(articleId).orElse(null);
-        Category category = categoryRepository.findById(categoryId).orElse(null);
-
-        if(article == null) return "Article " + articleId + " not found";
-        if(category == null) return "Category " + categoryId + " not found";
-
-        category.getArticles().add(article);
-        categoryRepository.save(category);
-
-        return "Category added to article successfully";
-    }
 
     public List<Article> getArticlesByPremium(boolean isPremium){
         List<Article> free = articleRepository.getArticlesByPremium(false);

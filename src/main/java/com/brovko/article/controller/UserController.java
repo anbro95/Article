@@ -1,19 +1,15 @@
 package com.brovko.article.controller;
 
-
 import com.brovko.article.dto.mappers.UserMapper;
 import com.brovko.article.dto.models.UserDTO;
 import com.brovko.article.model.Role;
 import com.brovko.article.model.User;
-import com.brovko.article.repository.UserRepository;
 import com.brovko.article.service.UserService;
-import com.brovko.article.service.UserServiceImpl;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +57,7 @@ public class UserController {
                 UserMapper.USER_MAPPER.toDTO(user));
     }
 
-    @DeleteMapping("/users/delete/{id}")
+    @DeleteMapping("/users/{id}")
     public String deleteUserById(@PathVariable Long id) {
         return userService.deleteUserById(id);
     }
