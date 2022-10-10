@@ -34,12 +34,12 @@ public class ArticleApplication {
         return args -> {
             userService.saveRole(new Role("ROLE_ADMIN"));
 
-
             userService.saveUser(new User("Andrew", "1234", "anbro2002@gmail.com",
                     "+380859427462",
                     LocalDateTime.of(2002, Month.JUNE, 27, 18, 30), 20, "Ukraine", "Odesa",
                     "5959599593995393", "Brovko",
                     "Ruha", new ArrayList<>()));
+
 
             userService.addRoleToUser("Ruha", "ROLE_ADMIN");
         };

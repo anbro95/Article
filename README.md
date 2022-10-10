@@ -1,38 +1,42 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
+<div>
+  <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
     <img src="https://cdn-icons-png.flaticon.com/512/3079/3079967.png" alt="Logo" width="80" height="80">
   </a>
+    </div>
 
   <h3 align="center">Article</h3>
 
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table of Contents</summary>
+  <summary align="center">Table of Contents</summary>
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
+    </li>
+    <li>
+       <a href="#built-with">Built With</a>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#usage">Usage</a>
+    </li>
   </ol>
 </details>
 
 
 
-<!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 
-This REST API can be called Medium clone. It represents web-application that provides such functions:
+This REST API provides such functions:
 
 * CRUD for articles, users, users' jobs, categories of articles. Endpoints for adding new job to user, adding new followers to user
 * After saving new user in database an email will be sent to him
@@ -46,7 +50,6 @@ This REST API can be called Medium clone. It represents web-application that pro
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 * [![Java][Java]][java.com]
 * [![Docker][Docker]][docker.com]
@@ -58,14 +61,14 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 
 
-<!-- GETTING STARTED -->
-## Getting Started
+
+<!--  ## Getting Started  -->
 
 
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
+
+<!--  ## Usage  -->
 
 
 
