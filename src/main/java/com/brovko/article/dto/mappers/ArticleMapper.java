@@ -5,6 +5,8 @@ import com.brovko.article.dto.models.CategoryDTO;
 import com.brovko.article.model.Article;
 import com.brovko.article.model.Category;
 import com.brovko.article.model.User;
+import com.brovko.article.service.CategoryService;
+import com.brovko.article.service.UserService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -14,7 +16,9 @@ import java.util.List;
 
 @Mapper
 public interface ArticleMapper {
+
     ArticleMapper ARTICLE_MAPPER = Mappers.getMapper(ArticleMapper.class);
+
 
     Article fromDTO(ArticleDTO articleDTO);
 

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -25,6 +26,9 @@ public class ArticleServiceImpl implements ArticleService{
 
     public Article saveArticle(Article article, Long id, List<Long> cat_id){
         log.info("Saving Article with id {}", article.getArticle_id());
+        if(article.getCategories() == null) {
+            article.setCategories(new ArrayList<>());
+        }
         cat_id.forEach(category_id -> article
                 .getCategories().add(categoryRepository.findById(category_id).orElse(null)));
         article.setUser(userRepository.findById(id).orElse(null));
