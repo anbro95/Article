@@ -39,7 +39,6 @@ class ArticleServiceImplTest {
         articleService = spy(new ArticleServiceImpl(articleRepository, categoryRepository, userService, userRepository));
     }
 
-    // TODO dodelat'
     @Test
     void save_article() {
         Article article = Article.builder().article_id(1L).categories(new ArrayList<>()).user(User.builder().user_id(1L)

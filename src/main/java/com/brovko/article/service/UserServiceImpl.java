@@ -1,13 +1,11 @@
 package com.brovko.article.service;
 
-
 import com.brovko.article.messaging.RabbitMQSender;
 import com.brovko.article.model.*;
 import com.brovko.article.model.notification.EmailDetails;
 import com.brovko.article.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 @Service
@@ -142,11 +139,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             userRepository.deleteById(id);
             return "Successfully deleted!!!";
         } catch (Exception e) {
-            return "User not found with id " + id;
+            return "Could not delete user with id " + id;
         }
 
     }
-
+//  TODO update fields
     public User updateUser(User user) {
         log.info("Updating user info {}", user.getUser_id());
         Long id = user.getUser_id();
@@ -156,20 +153,24 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
 
         updatedUser.setFirstName(user.getFirstName());
-        updatedUser.setLastName(user.getLastName());
-        updatedUser.setCity(user.getCity());
-        updatedUser.setAge(user.getAge());
-        updatedUser.setEmail(user.getEmail());
-        updatedUser.setCountry(user.getCountry());
         updatedUser.setPassword(user.getPassword());
-        updatedUser.setBirthDate(user.getBirthDate());
-        updatedUser.setCreatedAt(user.getCreatedAt());
-        updatedUser.setPremium(user.isPremium());
-
+        updatedUser.setEmail(user.getEmail());
         updatedUser.setPhone(user.getPhone());
-        updatedUser.setArticles(user.getArticles());
+        updatedUser.setBirthDate(user.getBirthDate());
+        updatedUser.setAge(user.getAge());
+        updatedUser.setCountry(user.getCountry());
+        updatedUser.setCity(user.getCity());
+        updatedUser.setTwitterLink(user.getTwitterLink());
+        updatedUser.setInstagramLink(user.getInstagramLink());
+        updatedUser.setFacebookLink(user.getFacebookLink());
         updatedUser.setCreditCardNumber(user.getCreditCardNumber());
+        updatedUser.setPremium(user.isPremium());
+        updatedUser.setLastName(user.getLastName());
+        updatedUser.setUserName(user.getUserName());
+        updatedUser.setRoles(user.getRoles());
         updatedUser.setJobs(user.getJobs());
+        updatedUser.setFollowing(user.getFollowing());
+        updatedUser.setFollowers(user.getFollowers());
 
         return userRepository.save(updatedUser);
     }

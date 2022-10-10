@@ -5,7 +5,6 @@ import com.brovko.article.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -52,6 +51,7 @@ public class CategoryServiceImpl implements CategoryService{
 
         updatedCategory.setDescription(category.getDescription());
         updatedCategory.setName(category.getName());
+        updatedCategory.setArticles(category.getArticles());
 
         return categoryRepository.save(updatedCategory);
     }

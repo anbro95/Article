@@ -5,7 +5,6 @@ import com.brovko.article.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -53,6 +52,7 @@ public class JobServiceImpl implements JobService{
         }
 
         updatedJob.setJobName(job.getJobName());
+        updatedJob.setUser(job.getUser());
 
         return jobRepository.save(updatedJob);
     }
