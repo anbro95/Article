@@ -1,9 +1,6 @@
 package com.brovko.article.controller;
 
-import com.brovko.article.dto.models.ArticleDTO;
-import com.brovko.article.model.Article;
-import com.brovko.article.model.Category;
-import com.brovko.article.model.User;
+import com.brovko.article.model.Job;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jayway.jsonpath.JsonPath;
@@ -20,132 +17,113 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @SpringBootTest
 @AutoConfigureMockMvc
-class ArticleControllerTest {
+class JobControllerTest {
     @Autowired
     private MockMvc mockMvc;
+    private String jobJson;
     private String token;
-    private Article article;
-    private String articleJson;
-    private String categoryJson;
 
     @SneakyThrows
     @BeforeEach
     void setUp() {
-        Category category = new Category(1L, "Science", "Articles related to science and technologies",
-                                    null);
-//        article = new Article(1L, "Interesting article", false,
-//                "Very interesting article about smth important", Arrays.asList(1L), User.builder().user_id(1L).build());
-
-        ArticleDTO articleDTO = new ArticleDTO("Interesting article", false, "Very interesting article",
-                Arrays.asList(1L), "Ruha");
-
-
         MvcResult result = mockMvc.perform(post("http://localhost:8089/api/login?username=Ruha&password=1234"))
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
         token = JsonPath.parse(content).read("$['access_token']");
 
+        Job job = new Job(1L, "Software Engineer", new ArrayList<>());
+
+
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
-        articleJson = mapper.writeValueAsString(articleDTO);
-        categoryJson = mapper.writeValueAsString(category);
+        jobJson = mapper.writeValueAsString(job);
     }
 
     @SneakyThrows
     @Test
-    void save_article() {
-        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8089/api/categories")
-                .header("authorization", "Bearer " + token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(categoryJson));
-
+    void save_job() {
         MvcResult result = mockMvc.perform(
-                        MockMvcRequestBuilders.post("http://localhost:8089/api/articles/1")
+                        MockMvcRequestBuilders.post("http://localhost:8089/api/jobs")
                                 .header("authorization", "Bearer " + token)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(articleJson))
+                                .content(jobJson))
 
                 .andExpect(status().is(201))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
-        String actualName = JsonPath.parse(content).read("$['name']");
-        Assertions.assertThat(actualName).isEqualTo("Interesting article");
+        Assertions.assertThat(content).isEqualTo(jobJson);
     }
 
     @SneakyThrows
     @Test
-    void get_article_by_id() {
+    void get_all_jobs() {
         mockMvc.perform(
-                MockMvcRequestBuilders.post("http://localhost:8089/api/articles/1")
+                MockMvcRequestBuilders.post("http://localhost:8089/api/jobs")
                         .header("authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(articleJson)
-        );
+                        .content(jobJson));
 
         MvcResult result = mockMvc.perform(
-                MockMvcRequestBuilders.get("http://localhost:8089/api/articles/1")
-                        .header("authorization", "Bearer " + token))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        String contentFree = result.getResponse().getContentAsString();
-        String freeName = JsonPath.parse(contentFree).read("$['name']");
-        Assertions.assertThat(freeName).isEqualTo("Interesting article");
-
-    }
-
-    @SneakyThrows
-    @Test
-    void get_all_articles() {
-        mockMvc.perform(
-                MockMvcRequestBuilders.post("http://localhost:8089/api/articles/1")
-                        .header("authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(articleJson)
-        );
-
-        MvcResult result = mockMvc.perform(
-                        MockMvcRequestBuilders.get("http://localhost:8089/api/articles")
+                        MockMvcRequestBuilders.get("http://localhost:8089/api/jobs")
                                 .header("authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
-        String contentFree = result.getResponse().getContentAsString();
-        String freeName = JsonPath.parse(contentFree).read("$[0]['name']");
-        Assertions.assertThat(freeName).isEqualTo("Interesting article");
+        String content = result.getResponse().getContentAsString();
+        String actualName = JsonPath.parse(content).read("$[0]['jobName']");
+        Assertions.assertThat(actualName).isEqualTo("Software Engineer");
     }
 
     @SneakyThrows
     @Test
-    void delete_article_by_id() {
+    void get_job_by_id() {
         mockMvc.perform(
-                MockMvcRequestBuilders.post("http://localhost:8089/api/articles/1")
+                MockMvcRequestBuilders.post("http://localhost:8089/api/jobs")
                         .header("authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(articleJson)
-        );
+                        .content(jobJson));
 
         MvcResult result = mockMvc.perform(
-                        MockMvcRequestBuilders.delete("http://localhost:8089/api/articles/1")
+                        MockMvcRequestBuilders.get("http://localhost:8089/api/jobs/1")
+                                .header("authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        String actualName = JsonPath.parse(content).read("$['jobName']");
+        Assertions.assertThat(actualName).isEqualTo("Software Engineer");
+    }
+
+    @SneakyThrows
+    @Test
+    void delete_job_by_id() {
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("http://localhost:8089/api/jobs")
+                        .header("authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jobJson));
+
+        MvcResult result = mockMvc.perform(
+                        MockMvcRequestBuilders.delete("http://localhost:8089/api/jobs/1")
                                 .header("authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String contentFree = result.getResponse().getContentAsString();
-        Assertions.assertThat(contentFree).isEqualTo("Article was deleted successfully!");
+        String content = result.getResponse().getContentAsString();
+        Assertions.assertThat(content).isEqualTo("Job deleted successfully!");
     }
 }
